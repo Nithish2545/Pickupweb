@@ -20,18 +20,32 @@ function App() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await axios.post(
-      "https://sheet.best/api/sheets/27658b60-3dca-4cc2-bd34-f65124b8a27d",
-      {
-        Name: formData.name,
-        number: formData.number,
-        email: formData.email,
-        location: formData.location,
-        weight: formData.weight,
-      }
-    );
-    console.log(response);
+    try {
+      const response = await axios.post(
+        "https://sheet.best/api/sheets/27658b60-3dca-4cc2-bd34-f65124b8a27d",
+        {
+          NAME: formData.name,
+          NUMBER: formData.number,
+          EMAIL: formData.email,
+          LOCATION: formData.location,
+          COUNTRY: formData.country,
+          WEIGHT: formData.weight,
+        }
+      );
+      setFormData(
+        {
+          name: "",
+          number: "",
+          email: "",
+          location: "",
+          country:"",
+          weight: "",
+        }
+      )
+    }
+    catch(e){
+      console.log(e)
+    }
   };
 
   return (
@@ -114,7 +128,7 @@ function App() {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none"
+          className="w-full bg-[#8847D9] text-white font-bold py-2 px-4 rounded hover:bg-[#8847D9] focus:outline-none"
         >
           Submit
         </button>
