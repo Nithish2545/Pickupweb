@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 
 // Function to generate a 10-character UID
 const generateUID = () => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let uid = '';
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let uid = "";
   for (let i = 0; i < 10; i++) {
     const randomIndex = Math.floor(Math.random() * chars.length);
     uid += chars[randomIndex];
@@ -38,6 +38,8 @@ function App() {
           EMAIL: data.email,
           LOCATION: data.location,
           COUNTRY: data.country,
+          LONGITUDE: data.longitude,
+          LATITUDE: data.latitude,
           WEIGHT: data.weight + " KG",
         }
       );
@@ -48,7 +50,7 @@ function App() {
     } finally {
       setLoading(false); // End loading
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
@@ -170,6 +172,52 @@ function App() {
           />
           {errors.weight && (
             <p className="text-red-500 text-sm mt-1">{errors.weight.message}</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">
+            Longitude :
+          </label>
+          <input
+            type="longitude"
+            placeholder="Enter your longitude "
+            {...register("longitude", {
+              required: "longitude  is required",
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: "Please enter a valid longitude",
+              },
+            })}
+            className={`w-full px-3 py-2 border ${
+              errors.email ? "border-red-500" : "border-gray-300"
+            } rounded focus:outline-none focus:border-[#8847D9]`}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">
+            latitude :
+          </label>
+          <input
+            type="latitude"
+            placeholder="Enter your latitude"
+            {...register("latitude", {
+              required: "latitude  is required",
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: "Please enter a valid latitude",
+              },
+            })}
+            className={`w-full px-3 py-2 border ${
+              errors.email ? "border-red-500" : "border-gray-300"
+            } rounded focus:outline-none focus:border-[#8847D9]`}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
 
