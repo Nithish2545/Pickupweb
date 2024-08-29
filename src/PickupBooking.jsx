@@ -23,6 +23,7 @@ function PickupBooking() {
       const res = await axios.post(
         "https://sheet.best/api/sheets/27658b60-3dca-4cc2-bd34-f65124b8a27d",
         {
+          NAME:data.name,
           EMAIL: data.email,
           PHONENUMBER: data.number,
           LONGITUDE: data.longitude,
