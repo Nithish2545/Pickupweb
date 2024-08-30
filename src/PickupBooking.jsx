@@ -192,7 +192,6 @@ function PickupBooking() {
                 </p>
               )}
             </div>
-
             <div className="mb-6">
               <label className="block text-gray-700 font-semibold mb-2">
                 Weight (approx):

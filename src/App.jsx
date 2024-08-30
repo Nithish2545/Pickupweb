@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Nav from './Nav';
 import PickupBooking from './PickupBooking';
 import RateCardForm from './RateCard';
 import VendorRateCard from './VendorRateCard';

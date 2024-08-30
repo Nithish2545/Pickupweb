@@ -22,7 +22,7 @@ const RateCardForm = () => {
     { name: "NEW ZEALAND", key: "newzealandData" },
   ];
 
-  const API_ENDPOINT = "https://sheetdb.io/api/v1/ipvwup3xtkdsg"; // Replace with your actual SheetDB API endpoint
+  const API_ENDPOINT = "https://sheetdb.io/api/v1/57vn5sseznvw5"; // Replace with your actual SheetDB API endpoint
 
   // Fetch data from Google Sheets
   const fetchData = async () => {
