@@ -34,7 +34,7 @@ const RateCardForm = () => {
 
       const responses = await Promise.all(promises);
       const newRateData = {};
-
+      console.log(responses.data);
       // Map responses to rateData format
       responses.forEach((response, index) => {
         const sheetName = sheets[index].name;
@@ -83,7 +83,7 @@ const RateCardForm = () => {
 
   return (
     <div>
-      <Nav/>
+      <Nav />
       <div className="min-h-screen bg-gradient-to-r from-purple-50 to-purple-200 flex flex-col items-center justify-center py-8">
         {/* Form Section */}
         <div className="w-full max-w-lg p-4">
