@@ -3,26 +3,26 @@ import axios from "axios";
 import Nav from "./Nav";
 
 const RateCardForm = () => {
-  const [country, setCountry] = useState("usaData");
+  const [country, setCountry] = useState("USA"); // Use the sheet name directly
   const [weight, setWeight] = useState("");
   const [weights, setWeights] = useState([]);
   const [selectedRate, setSelectedRate] = useState(null);
   const [rateData, setRateData] = useState({});
 
   const sheets = [
-    { name: "USA", key: "usaData" },
-    { name: "UK", key: "ukData" },
-    { name: "UAE", key: "uaeData" },
-    { name: "CANADA", key: "canadaData" },
-    { name: "CHINA", key: "chinaData" },
-    { name: "EUROPE", key: "europeData" },
-    { name: "FRANCE", key: "franceData" },
-    { name: "HONG KONG", key: "hongkongData" },
-    { name: "MALAYSIA", key: "malaysiaData" },
-    { name: "NEW ZEALAND", key: "newzealandData" },
+    { name: "USA" },
+    { name: "UK" },
+    { name: "UAE" },
+    { name: "CANADA" },
+    { name: "CHINA" },
+    { name: "EUROPE" },
+    { name: "FRANCE" },
+    { name: "HONG KONG" },
+    { name: "MALAYSIA" },
+    { name: "NEW ZEALAND" },
   ];
 
-  const API_ENDPOINT = "https://sheetdb.io/api/v1/57vn5sseznvw5"; // Replace with your actual SheetDB API endpoint
+  const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbzV38Uyx2o1hHDG8EQKhIDiG3ciRZWNqxGkZrU01rr8ssfL5QxhC5lzLBTbmf_MExrOWA/exec"; // Replace with your actual Web App URL
 
   // Fetch data from Google Sheets
   const fetchData = async () => {
@@ -34,31 +34,23 @@ const RateCardForm = () => {
 
       const responses = await Promise.all(promises);
       const newRateData = {};
-      console.log(responses.data);
+
       // Map responses to rateData format
       responses.forEach((response, index) => {
         const sheetName = sheets[index].name;
-        const key = sheets[index].key;
-        const data = response.data;
+        const data = response.data.data;
 
-        sheets.push({ name: sheetName, key: sheetName + "Data" });
-
-        // Extract dynamic column names based on country
-        const weightColumn = `Weight_slab(${sheetName})`;
-        const economyColumn = `Economy`;
-        const expressColumn = `Express`;
-
-        newRateData[key] = data.map((item) => ({
-          Weight_slab: item[weightColumn],
-          Economy: item[economyColumn],
-          Express: item[expressColumn],
+        newRateData[sheetName] = data.map((item) => ({
+          Weight_slab: item["Weight_slab(" + sheetName + ")"],
+          Economy: item.Economy,
+          Express: item.Express,
         }));
       });
 
       setRateData(newRateData);
       console.log("Fetched data from Google Sheets:", newRateData);
     } catch (error) {
-      console.error("Error fetching data from sheetdb.io", error);
+      console.error("Error fetching data from Google Sheets", error);
     }
   };
 
@@ -104,7 +96,7 @@ const RateCardForm = () => {
                     className="w-full border border-gray-300 rounded px-3 py-2 text-gray-700 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 transition duration-150 ease-in-out"
                   >
                     {sheets.map((sheet) => (
-                      <option key={sheet.key} value={sheet.key}>
+                      <option key={sheet.name} value={sheet.name}>
                         {sheet.name}
                       </option>
                     ))}

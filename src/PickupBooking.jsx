@@ -5,7 +5,7 @@ import { getData } from "country-list";
 import Nav from "./Nav";
 
 function PickupBooking() {
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const [countries, setCountries] = useState([]);
 
   const {
@@ -16,33 +16,29 @@ function PickupBooking() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    setLoading(true); // Start loading
-
-    console.log(data.name);
+    setLoading(true);
     try {
       const res = await axios.post(
-        "https://sheet.best/api/sheets/27658b60-3dca-4cc2-bd34-f65124b8a27d",
+        "https://script.google.com/macros/s/AKfycbwGQpuf11xA0GCpetQGKna90aytNg_WfNKTD8KyRA7unfeVCpg9fMGGrP44hRTAqOv7/exec",
         {
-          NAME:data.name,
+          NAME: data.name,
           EMAIL: data.email,
           PHONENUMBER: data.number,
           LONGITUDE: data.longitude,
           LATITUDE: data.latitude,
-          CITY: data.location,
           PINCODE: data.pincode,
-          COUNTRY_FROM: data.country,
+          DESTINATION: data.country,
           WEIGHTAPX: data.weight + " KG",
-          PickUpPersonName: data.name,
-          PICKUP_INSTRUCTIONS: data.instructions, // Added field
-          PICKUP_DATETIME: data.pickupDate + data.pickupTime,
+          PICKUP_INSTRUCTIONS: data.instructions,
+          PICKUP_DATETIME: `${data.pickupDate} ${data.pickupTime}`,
         }
       );
       console.log(res.data);
       reset();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     } finally {
-      setLoading(false); // End loading
+      setLoading(false);
     }
   };
 
@@ -56,7 +52,7 @@ function PickupBooking() {
       <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-white p-6 rounded-md shadow-none w-full max-w-4xl" // Removed card-like appearance
+          className="bg-white p-6 rounded-md shadow-none w-full max-w-4xl"
         >
           <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
             Submit Pickup Details
@@ -80,6 +76,7 @@ function PickupBooking() {
                 </p>
               )}
             </div>
+
             <div className="mb-4">
               <label className="block text-gray-700 font-semibold mb-2">
                 Phone Number:
@@ -132,25 +129,6 @@ function PickupBooking() {
 
             <div className="mb-4">
               <label className="block text-gray-700 font-semibold mb-2">
-                Location (City):
-              </label>
-              <input
-                type="text"
-                placeholder="Enter city or location"
-                {...register("location", { required: "Location is required" })}
-                className={`w-full px-3 py-2 border ${
-                  errors.location ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:border-[#8847D9]`}
-              />
-              {errors.location && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.location.message}
-                </p>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">
                 Country:
               </label>
               <select
@@ -159,8 +137,7 @@ function PickupBooking() {
                   errors.country ? "border-red-500" : "border-gray-300"
                 } rounded-md focus:outline-none focus:border-[#8847D9]`}
               >
-                <option value="">Select your country</option>{" "}
-                {/* Placeholder option */}
+                <option value="">Select your country</option>
                 {countries.map((country) => (
                   <option key={country.code} value={country.code}>
                     {country.name}
@@ -192,6 +169,7 @@ function PickupBooking() {
                 </p>
               )}
             </div>
+
             <div className="mb-6">
               <label className="block text-gray-700 font-semibold mb-2">
                 Weight (approx):
@@ -275,6 +253,7 @@ function PickupBooking() {
                 </p>
               )}
             </div>
+
             <div className="mb-4">
               <label className="block text-gray-700 font-semibold mb-2">
                 Pickup Time:
@@ -295,23 +274,27 @@ function PickupBooking() {
               )}
             </div>
 
-            <div className="mb-4">
+            <div className="md:col-span-2 mb-4">
               <label className="block text-gray-700 font-semibold mb-2">
                 Pickup Instructions:
               </label>
               <textarea
-                placeholder="Enter pickup instructions"
+                placeholder="Enter any special instructions"
                 {...register("instructions")}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#8847D9]"
-              />
+              ></textarea>
             </div>
           </div>
 
-          <div className="text-center">
+          <div className="flex justify-center">
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#8847D9] text-white px-4 py-2 rounded-md hover:bg-[#6d3f9f] focus:outline-none focus:ring-2 focus:ring-[#8847D9]"
+              className={`${
+                loading
+                  ? "bg-[#8847D9] text-white cursor-not-allowed"
+                  : "bg-[#8847D9] hover:bg-[#6f38b1] text-white"
+              } font-bold py-2 px-4 rounded-md focus:outline-none transition duration-300`}
             >
               {loading ? "Submitting..." : "Submit"}
             </button>
